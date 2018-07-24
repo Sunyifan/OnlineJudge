@@ -20,6 +20,7 @@ Sample Input
 0 9 2 2 3
 3 0 0 0 1
 3 3
+
 Sample Output
 38
 样例解释
@@ -41,17 +42,30 @@ matrix = [[int(item) for item in sys.stdin.readline().split()] for i in range(l)
 obj_l, obj_w = [int(item) for item in sys.stdin.readline().split()]
 
 
-def sum_peanuts_of_area(_start_l, _start_w, _l, _w):
-    return sum([sum(_list[_start_w: _start_w + _w]) for _list in matrix[_start_l: _start_l + _l]])
+row_sum_matrix = []
+
+for i in range(l):
+    row = []
+
+    for j in range(w - obj_w + 1):
+        if j == 0:
+            row.append(sum(matrix[i][:obj_w]))
+        else:
+            row.append(row[-1] + matrix[i][j + obj_w - 1] - matrix[i][j - 1])
+
+    row_sum_matrix.append(row)
 
 
-class Direction:
-    LEFT = 0
-    RIGHT = 1
-    DOWN = 2
+max_peanuts = 0
 
 
-start_l = start_w = 0
-curr_peanuts = max_peanuts = sum_peanuts_of_area(start_l, start_w, obj_l, obj_w)
+for j in range(w - obj_w + 1):
+    for i in range(l - obj_l + 1):
+        if i == 0:
+            curr_peanuts = sum([row_sum_matrix[k][j] for k in range(obj_l)])
+        else:
+            curr_peanuts = curr_peanuts + row_sum_matrix[i + obj_l - 1][j] - row_sum_matrix[i - 1][j]
+
+        max_peanuts = curr_peanuts if curr_peanuts >= max_peanuts else max_peanuts
 
 print(max_peanuts)
