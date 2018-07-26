@@ -44,26 +44,19 @@ GAME_OVER = 'Game Over'
 line_no = int(sys.stdin.readline())
 curr_sum = max_sum = in_progress = 0
 
+for i in range(line_no):
+    this_value = int(sys.stdin.readline())
 
-if line_no > 2:
-    for i in range(line_no):
-        this_value = int(sys.stdin.readline())
+    if curr_sum + this_value >= 0:
+        curr_sum += this_value
+        in_progress += 1
+    else:
+        curr_sum = in_progress = 0
 
-        if i == line_no - 2:
-            last_second_value = this_value
+    if curr_sum > max_sum and in_progress > 1:
+        max_sum = curr_sum
 
-        if curr_sum + this_value >= 0:
-            curr_sum += this_value
-            in_progress += 1
-        else:
-            curr_sum = in_progress = 0
-
-        if curr_sum > max_sum and in_progress > 1:
-            max_sum = curr_sum
-        elif i == line_no - 1 and this_value + last_second_value > max_sum:
-            max_sum = this_value + last_second_value
-else:
-    max_sum = sum([int(sys.stdin.readline()) for i in range(line_no)])
+    last_value = this_value
 
 
 if max_sum <= 0:
