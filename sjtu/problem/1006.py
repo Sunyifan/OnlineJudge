@@ -56,8 +56,6 @@ for i in range(line_no):
     if curr_sum > max_sum and in_progress > 1:
         max_sum = curr_sum
 
-    last_value = this_value
-
 
 if max_sum <= 0:
     print(GAME_OVER)
